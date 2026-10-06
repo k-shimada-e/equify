@@ -14,7 +14,7 @@ equify combines the familiar API of [testify](https://github.com/stretchr/testif
 
 ## Installation
 
-Requires **Go 1.23 or later**.
+Requires **Go 1.21 or later**. The minimum follows the requirements of the pinned dependencies: testify v1.11.1 requires Go 1.17, while go-cmp v0.7.0 requires Go 1.21.
 
 ```sh
 go get github.com/k-shimada-e/equify@v0.1.1
@@ -206,6 +206,16 @@ go mod download
 go test ./...
 go vet ./...
 ```
+
+CI runs tests and `go vet` on Linux and Windows with Go 1.21, the previous stable Go release (`oldstable`), and the latest stable release (`stable`), following testify's approach of testing both the minimum supported version and current releases. A separate Linux job checks `gofmt`, generated wrappers, module metadata, and race detection. To collect coverage across packages (including `require` calls from root tests):
+
+```sh
+go test -count=1 -timeout=5m '-coverpkg=./...' '-coverprofile=coverage.out' ./...
+go tool cover '-func=coverage.out'
+go test -race -count=1 -timeout=5m ./...
+```
+
+Race detection requires a supported C compiler. Coverage includes generated forwarding functions; no percentage threshold is enforced.
 
 `forward.go` and `require/forward.go` are generated wrappers around the pinned testify version. Do not edit them manually. After changing that dependency, regenerate and validate:
 

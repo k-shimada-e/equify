@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # A minimum-version job must fail instead of silently downloading newer Go.
+  GOTOOLCHAIN: local
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test (${{ matrix.os }}, Go ${{ matrix.go }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        go: ['1.21.x', oldstable, stable]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version: ${{ matrix.go }}
+          cache-dependency-path: go.sum
+      - run: go mod download
+      - run: go mod verify
+      - run: go test -count=1 -timeout=5m ./...
+      - run: go vet ./...
+
+  quality:
+    name: Formatting, generation and race detection
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+          cache-dependency-path: go.sum
+      - name: Check formatting
+        shell: bash
+        run: |
+          files=$(gofmt -l $(git ls-files '*.go'))
+          if [ -n "$files" ]; then
+            printf '%s\n' "$files"
+            exit 1
+          fi
+      - name: Check generated wrappers
+        run: |
+          go generate ./...
+          git diff --exit-code -- forward.go require/forward.go
+      - name: Check module metadata
+        run: |
+          go mod tidy
+          git diff --exit-code -- go.mod go.sum
+      - name: Run race detection and coverage
+        run: go test -race -count=1 -timeout=5m -coverpkg=./... -coverprofile=coverage.out ./...
+      - name: Report coverage
+        run: go tool cover -func=coverage.out

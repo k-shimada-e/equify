@@ -14,7 +14,7 @@ equify は、[testify](https://github.com/stretchr/testify) の呼び出し方�
 
 ## 導入
 
-Go **1.23 以降**が必要です。
+Go **1.21 以降**が必要です。最低バージョンは固定した依存先の要求に合わせています。testify v1.11.1 は Go 1.17、go-cmp v0.7.0 は Go 1.21 を要求します。
 
 ```sh
 go get github.com/k-shimada-e/equify@v0.1.1
@@ -206,6 +206,16 @@ go mod download
 go test ./...
 go vet ./...
 ```
+
+CI は testify と同様に最低対応バージョンと現行の安定版を検証する方針です。Linux・Windows と Go 1.21・一つ前の安定版（`oldstable`）・最新安定版（`stable`）の組み合わせでテストと `go vet` を実行します。別の Linux ジョブで `gofmt`、生成コード、モジュール情報の整合性、race 検出も確認します。ルートのテストから呼び出す `require` を含めて、パッケージ横断のカバレッジを取得するには次を実行してください。
+
+```sh
+go test -count=1 -timeout=5m '-coverpkg=./...' '-coverprofile=coverage.out' ./...
+go tool cover '-func=coverage.out'
+go test -race -count=1 -timeout=5m ./...
+```
+
+race 検出には対応する C コンパイラが必要です。カバレッジには生成された委譲関数も含まれるため、達成率のしきい値は設けていません。
 
 `forward.go` と `require/forward.go` は、固定した testify のソースから生成した委譲関数です。手動で編集せず、依存バージョンを変更したら再生成して検証してください。
 

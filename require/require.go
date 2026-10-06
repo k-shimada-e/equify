@@ -4,8 +4,8 @@ package require
 import (
 	"fmt"
 
-	assert "github.com/k-shimada-e/equify"
 	"github.com/google/go-cmp/cmp"
+	assert "github.com/k-shimada-e/equify"
 	testify "github.com/stretchr/testify/require"
 )
 

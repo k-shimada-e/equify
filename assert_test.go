@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/go-cmp/cmp/cmpopts"
 	assert "github.com/k-shimada-e/equify"
 	"github.com/k-shimada-e/equify/require"
-	"github.com/google/go-cmp/cmp/cmpopts"
 	testify "github.com/stretchr/testify/assert"
 )
 
