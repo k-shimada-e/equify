@@ -33,7 +33,7 @@ import (
 	"testing"
 	"time"
 
-	assert "github.com/k-shimada-e/equify"
+	"github.com/k-shimada-e/equify/assert"
 	"github.com/k-shimada-e/equify/require"
 )
 
@@ -63,7 +63,7 @@ package example_test
 import (
 	"testing"
 
-	assert "github.com/k-shimada-e/equify"
+	"github.com/k-shimada-e/equify/assert"
 )
 
 type User struct {
@@ -122,7 +122,7 @@ package example_test
 import (
 	"testing"
 
-	assert "github.com/k-shimada-e/equify"
+	"github.com/k-shimada-e/equify/assert"
 	"github.com/k-shimada-e/equify/require"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -159,7 +159,7 @@ Replace the imports and keep your assertion calls:
 ```diff
 - "github.com/stretchr/testify/assert"
 - "github.com/stretchr/testify/require"
-+ assert "github.com/k-shimada-e/equify"
++ "github.com/k-shimada-e/equify/assert"
 + "github.com/k-shimada-e/equify/require"
 ```
 
@@ -217,7 +217,7 @@ go test -race -count=1 -timeout=5m ./...
 
 Race detection requires a supported C compiler. Coverage includes generated forwarding functions; no percentage threshold is enforced.
 
-`forward.go` and `require/forward.go` are generated wrappers around the pinned testify version. Do not edit them manually. After changing that dependency, regenerate and validate:
+`assert/forward.go` and `require/forward.go` are generated wrappers around the pinned testify version. Do not edit them manually. After changing that dependency, regenerate and validate:
 
 ```sh
 go generate ./...

@@ -53,10 +53,7 @@ func (a *Assertions) MethodOnly() {}
 	for _, pkg := range []string{"assert", "require"} {
 		t.Run(pkg, func(t *testing.T) {
 			generate(root, pkg)
-			path := "forward.go"
-			if pkg == "require" {
-				path = filepath.Join(pkg, path)
-			}
+			path := filepath.Join(pkg, "forward.go")
 			first, err := os.ReadFile(path)
 			if err != nil {
 				t.Fatal(err)

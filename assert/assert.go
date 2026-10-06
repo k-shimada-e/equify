@@ -11,7 +11,7 @@ import (
 	testify "github.com/stretchr/testify/assert"
 )
 
-//go:generate go run ./internal/gen
+//go:generate go -C .. run ./internal/gen
 
 // Assertions preserves testify's methods and overrides Equal and NotEqual.
 type Assertions struct {

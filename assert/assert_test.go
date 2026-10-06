@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp/cmpopts"
-	assert "github.com/k-shimada-e/equify"
+	"github.com/k-shimada-e/equify/assert"
 	"github.com/k-shimada-e/equify/require"
 	testify "github.com/stretchr/testify/assert"
 )

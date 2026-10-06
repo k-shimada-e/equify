@@ -62,7 +62,7 @@ jobs:
       - name: Check generated wrappers
         run: |
           go generate ./...
-          git diff --exit-code -- forward.go require/forward.go
+          git diff --exit-code -- assert/forward.go require/forward.go
       - name: Check module metadata
         run: |
           go mod tidy

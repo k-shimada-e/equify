@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/google/go-cmp/cmp"
-	assert "github.com/k-shimada-e/equify"
+	"github.com/k-shimada-e/equify/assert"
 	testify "github.com/stretchr/testify/require"
 )
 

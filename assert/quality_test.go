@@ -6,7 +6,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	assert "github.com/k-shimada-e/equify"
+	"github.com/k-shimada-e/equify/assert"
 	"github.com/k-shimada-e/equify/require"
 )
 

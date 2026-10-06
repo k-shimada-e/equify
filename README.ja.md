@@ -33,7 +33,7 @@ import (
 	"testing"
 	"time"
 
-	assert "github.com/k-shimada-e/equify"
+	"github.com/k-shimada-e/equify/assert"
 	"github.com/k-shimada-e/equify/require"
 )
 
@@ -63,7 +63,7 @@ package example_test
 import (
 	"testing"
 
-	assert "github.com/k-shimada-e/equify"
+	"github.com/k-shimada-e/equify/assert"
 )
 
 type User struct {
@@ -122,7 +122,7 @@ package example_test
 import (
 	"testing"
 
-	assert "github.com/k-shimada-e/equify"
+	"github.com/k-shimada-e/equify/assert"
 	"github.com/k-shimada-e/equify/require"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -159,7 +159,7 @@ import を置き換え、既存の assertion 呼び出しを維持できます�
 ```diff
 - "github.com/stretchr/testify/assert"
 - "github.com/stretchr/testify/require"
-+ assert "github.com/k-shimada-e/equify"
++ "github.com/k-shimada-e/equify/assert"
 + "github.com/k-shimada-e/equify/require"
 ```
 
@@ -217,7 +217,7 @@ go test -race -count=1 -timeout=5m ./...
 
 race 検出には対応する C コンパイラが必要です。カバレッジには生成された委譲関数も含まれるため、達成率のしきい値は設けていません。
 
-`forward.go` と `require/forward.go` は、固定した testify のソースから生成した委譲関数です。手動で編集せず、依存バージョンを変更したら再生成して検証してください。
+`assert/forward.go` と `require/forward.go` は、固定した testify のソースから生成した委譲関数です。手動で編集せず、依存バージョンを変更したら再生成して検証してください。
 
 ```sh
 go generate ./...
